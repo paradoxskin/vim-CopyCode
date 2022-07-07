@@ -8,5 +8,5 @@ Self-use for copy some code using keywords in program competition
 # Usage
 * add the code file in codes file
 * edit the .config file as example:`<filename:key1,key2,key3...>`,and one line one file
-* map `:Coco<space>` in your vimrc or not
+* map `:Coco ` in your vimrc or not
 * `:Coco <key>` to add code in your current file
