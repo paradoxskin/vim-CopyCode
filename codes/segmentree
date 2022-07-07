@@ -1,0 +1,50 @@
+struct SegTree{
+	void init(int size){
+		build(1,1,size);
+	}
+	void change(int pos,int value){
+		update(1,pos,value);
+	}
+	long long query(int pos0,int pos1){
+		return query(1,pos0,pos1);
+	}
+	//----------------------
+	struct{
+		int l,r;
+		long long su;
+	}st[maxn*4];
+	void build(int rt,int l,int r){
+		st[rt].l=l,st[rt].r=r;
+		if(l==r){
+			//DO INIT
+			st[rt].su=A[l];
+			//INIT EN
+			return;
+		}
+		int m=(l+r)/2;
+		build(rt*2,l,m);
+		build(rt*2+1,m+1,r);
+		pushup(rt);
+	}
+	inline void pushup(int rt){
+		st[rt].su=st[rt*2].su+st[rt*2+1].su;
+	}
+	void update(int rt,int s,int x){
+		int l=st[rt].l,r=st[rt].r;
+		if(l==r){
+			st[rt].su=x;
+			A[l]=x;
+			return;
+		}
+		int m=(l+r)/2;
+		if(s<=m)update(rt*2,s,x);
+		else update(rt*2+1,s,x);
+		pushup(rt);
+	}
+	long long query(int rt,int s,int e){
+		int l=st[rt].l,r=st[rt].r;
+		if(s<=l&&r<=e) return st[rt].su;
+		if(e<l||r<s) return 0;
+		return query(rt*2,s,e)+query(rt*2+1,s,e);
+	}
+};
