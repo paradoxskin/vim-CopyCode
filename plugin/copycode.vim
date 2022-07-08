@@ -1,5 +1,5 @@
 " Vim plugin for copy code
-" LAST CHANGE : 2022.7.7
+" LAST CHANGE : 2022.7.8
 " License : This file is placed in the public domain.
 
 if exists("g:loaded_copy")
@@ -9,10 +9,13 @@ endif
 let g:loaded_copy=1
 let s:dii={}
 let s:address = expand('<sfile>:p:h:h')
-"echo s:address
+let s:islinux='/'
 
 function s:Init()
-  let s:list=readfile(s:address . "/.config")
+  if has('win32') || has('win64')
+    let s:islinux='\'
+  endif
+  let s:list=readfile(s:address . s:islinux .".config")
   for item in s:list
     let s:tmp=split(item,':')
 	for key in split(s:tmp[1],',')
@@ -22,8 +25,6 @@ function s:Init()
 endfunction
 
 function Copycode(name)
-  "echo '[I] ' . a:name
-  " find the value
   try
     let s:filename=s:dii[a:name]
   catch /E716:/
@@ -32,13 +33,8 @@ function Copycode(name)
   catch
     echo '[X] error'
   endtry
-  "echo '[O] filename: 's:filename
-  let s:path=s:address . '/codes/' . s:filename
-  "read s:address . '/codes/' . s:filename
-  echo s:path
+  let s:path=s:address . s:islinux . 'codes' . s:islinux . s:filename
   exec 'read '. s:path
-  "read s:path
-  "echo '[O] done'
 endfunction
 
 
