@@ -34,6 +34,7 @@ function Copycode(name)
     echo '[X] error'
   endtry
   let s:path=s:address . s:islinux . 'codes' . s:islinux . s:filename
+  norm jmjk
   exec 'read '. s:path
 endfunction
 
